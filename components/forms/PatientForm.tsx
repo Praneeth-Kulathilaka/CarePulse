@@ -7,16 +7,24 @@ import { z } from "zod"
 import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 import CustomFormField, { FormFieldType } from "../CustomFormField"
+import SubmitButton from "../SubmitButton"
+import { useState } from "react"
 
 
 const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-})
+    name: z
+        .string()
+        .min(2, {message: "Username must be at least 2 characters.",})
+        .max(50,{message: "Username must be at most 50 characters"}),
+    email: z.string().email("Invalid Email Address"),
+    phone: z
+        .string()
+        .refine((phone) => /^\+\d{10,15}$/.test(phone), "Invalid phone number"),    
+});
 
 const PatientForm = () =>  {
-    // 1. Define your form.
+    const [isLoading, setIsLoading] = useState(false);
+    
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -64,7 +72,7 @@ const PatientForm = () =>  {
                 label="Phone number"
                 placeholder="(555) 123-4567"
             />
-            <Button type="submit">Submit</Button>
+            <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
         </form>
         </Form>
     )
