@@ -9,6 +9,10 @@ import { Form } from "@/components/ui/form"
 import CustomFormField, { FormFieldType } from "../CustomFormField"
 import SubmitButton from "../SubmitButton"
 import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { createUser } from "@/lib/actions/patient.actions"
+import { NEXT_PUBLIC_ENDPOINT, PROJECT_ID } from "@/lib/appwrite.config"
+
 
 
 const formSchema = z.object({
@@ -23,6 +27,7 @@ const formSchema = z.object({
 });
 
 const PatientForm = () =>  {
+    const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     
     const form = useForm<z.infer<typeof formSchema>>({
@@ -34,11 +39,34 @@ const PatientForm = () =>  {
         },
     })
 
-  // 2. Define a submit handler.
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values)
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        setIsLoading(true);
+
+        try {
+            const user = {
+                name: values.name,
+                email: values.email,
+                phone: values.phone
+            };
+
+            console.log("Created user",user);
+
+            console.log("Database endpoint",PROJECT_ID)
+            
+
+            const newUser = await createUser(user);
+
+            console.log("User Created", newUser);
+            
+
+            if(newUser) {
+                router.push(`patients/${newUser.$id}/register`)
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+        setIsLoading(false);
     }
     return (
         <Form {...form}>
