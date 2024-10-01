@@ -11,7 +11,7 @@ import SubmitButton from "../SubmitButton"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { createUser } from "@/lib/actions/patient.actions"
-import { NEXT_PUBLIC_ENDPOINT, PROJECT_ID } from "@/lib/appwrite.config"
+import {  PROJECT_ID } from "@/lib/appwrite.config"
 
 
 
@@ -51,7 +51,7 @@ const PatientForm = () =>  {
 
             console.log("Created user",user);
 
-            console.log("Database endpoint",PROJECT_ID)
+            console.log("Database endpoint",process.env.PROJECT_ID)
             
 
             const newUser = await createUser(user);

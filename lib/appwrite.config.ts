@@ -8,16 +8,15 @@ export const {
     DOCTOR_COLLECTION_ID,
     APPOINTMENT_COLLECTION_ID,
     CAREPLUS_STORAGE_ID,
-    NEXT_PUBLIC_ENDPOINT
 } = process.env;
 
 const client = new sdk.Client();
 
-console.log("EndPoint",NEXT_PUBLIC_ENDPOINT);
+console.log("EndPoint",process.env.NEXT_PUBLIC_ENDPOINT);
 
 
 client
-    .setEndpoint(NEXT_PUBLIC_ENDPOINT!)
+    .setEndpoint(process.env.NEXT_PUBLIC_ENDPOINT!)
     .setProject(PROJECT_ID!)
     .setKey(API_KEY!);
 
