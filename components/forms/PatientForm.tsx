@@ -11,7 +11,7 @@ import SubmitButton from "../SubmitButton"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { createUser } from "@/lib/actions/patient.actions"
-import {  PROJECT_ID } from "@/lib/appwrite.config"
+import { PROJECT_ID } from "@/lib/appwrite.config"
 
 
 
